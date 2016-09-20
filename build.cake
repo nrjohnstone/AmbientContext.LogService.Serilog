@@ -37,6 +37,29 @@ Task("Restore-NuGet-Packages")
 });
 
 
+Task("Pack")
+    .Does(() => 
+{
+    EnsureDirectoryExists("./artifacts");
+    string version = GitVersion().NuGetVersion;
+
+    var binDir = Directory("./bin") ;
+    var nugetPackageDir = Directory("./artifacts");
+
+    var nugetFilePaths = GetFiles("./src/AmbientContext.LogService.Serilog/*.csproj");
+
+    var nuGetPackSettings = new NuGetPackSettings
+    {   
+        Version = version,
+        BasePath = binDir + Directory(configuration),
+        OutputDirectory = nugetPackageDir,
+        ArgumentCustomization = args => args.Append("-Prop Configuration=" + configuration)
+    };
+
+    NuGetPack(nugetFilePaths, nuGetPackSettings);
+});
+
+
 Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .IsDependentOn("Update-Version")
@@ -116,7 +139,8 @@ Task("Get-DotNetCli")
 
 Task("Default")
     .IsDependentOn("Build")
-    .IsDependentOn("Run-Unit-Tests");
+    .IsDependentOn("Run-Unit-Tests")
+    .IsDependentOn("Pack");
     
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
