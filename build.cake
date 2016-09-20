@@ -97,6 +97,9 @@ Task("Update-Version")
     GitVersion(new GitVersionSettings {
         UpdateAssemblyInfo = true});
     string version = GitVersion().FullSemVer;
+    if (AppVeyor.IsRunningOnAppVeyor) {
+        AppVeyor.UpdateBuildVersion(version);
+    }
     var projectFiles = System.IO.Directory.EnumerateFiles(@".\", "project.json", SearchOption.AllDirectories).ToArray();
 
     foreach(var file in projectFiles)
