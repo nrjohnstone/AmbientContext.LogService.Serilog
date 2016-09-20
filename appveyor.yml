@@ -1,4 +1,4 @@
-﻿version: {build}
+﻿version: '{build}'
 
 environment:
   packageVersion: 0.0.1
