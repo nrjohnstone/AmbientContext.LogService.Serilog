@@ -2,7 +2,6 @@
 #addin "Cake.Powershell"
 #tool "nuget:?package=GitVersion.CommandLine"
 #tool "nuget:?package=xunit.runner.console"
-#addin "Cake.ExtendedNuGet"
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -39,6 +38,7 @@ Task("Restore-NuGet-Packages")
 
 
 Task("Build")
+    .IsDependentOn("Restore-NuGet-Packages")
     .IsDependentOn("Update-Version")
     .Does(() =>
 {
@@ -57,19 +57,6 @@ Task("Rebuild")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
 { });
-
-
-Task("Pack-Nuget")
-    .Does(() => 
-{
-    var settings = new DotNetCorePackSettings
-    {
-        Configuration = "Release",
-        OutputDirectory = "./artifacts/"
-    };
-
-    DotNetCorePack("./src/AmbientContext.LogService.Serilog/", settings);
-});
 
 
 Task("Run-Unit-Tests")

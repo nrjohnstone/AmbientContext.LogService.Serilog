@@ -1,26 +1,15 @@
-﻿version: 0.0.1.{build}
+﻿version: {build}
 
 environment:
   packageVersion: 0.0.1
 
-init:
-- ps: $env:buildVersion = "$env:packageVersion.$env:appveyor_build_number"
-- ps: $env:nugetVersion = "$env:packageVersion-beta-$env:appveyor_build_number"
-- ps: Update-AppveyorBuild -Version $env:buildVersion
-
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '$(buildVersion)'
-  assembly_file_version: '$(buildVersion)'
-  assembly_informational_version: '$(nugetVersion)'
-
 pull_requests:
   do_not_increment_build_number: true
 
-branches:
+branches:  
   only:
   - master
+  - develop
   - release
 
 configuration: Release
@@ -29,16 +18,18 @@ nuget:
   account_feed: true
   disable_publish_on_pr: true
 
-cache:
-- ./src/packages -> **\packages.config
+build_script:
+- ps: .\Build.ps1
 
-before_build:
-- nuget restore ./src/AmbientContext.LogService.Serilog.sln
+artifacts:  
+- path: .\artifacts\**\*.nupkg
+  name: NuGet
 
-build:
-  project: ./src/AmbientContext.LogService.Serilog.sln
-  publish_nuget: true
-  verbosity: minimal
-
-artifacts:
-- path: NuGet/Release/AmbientContext.LogService.Serilog.nupkg
+deploy:
+- provider: NuGet
+  name: production
+  api_key:
+    secure: '2K5EQwNNYpt5GMRVKxHTihZO2MZCUSbsngmYo63XPO73UoX0n7INS/4OGIrZ3mMe'
+  on:
+    branch: master
+    appveyor_repo_tag: true
