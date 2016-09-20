@@ -22,5 +22,6 @@ namespace AmbientContext.LogService.Serilog
         void Error(string messageTemplate);
         void Error(string messageTemplate, params object[] propertyValues);
         void Error(Exception exception, string messageTemplate, params object[] propertyValues);
+        ILogContext LogContext { get; }
     }
 }

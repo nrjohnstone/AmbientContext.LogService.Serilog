@@ -67,5 +67,7 @@ namespace AmbientContext.LogService.Serilog
 
         public void Error(Exception exception, string messageTemplate, params object[] propertyValues) =>
             Instance.Error(exception, messageTemplate, propertyValues);
+
+        public ILogContext LogContext => Instance.LogContext;
     }
 }

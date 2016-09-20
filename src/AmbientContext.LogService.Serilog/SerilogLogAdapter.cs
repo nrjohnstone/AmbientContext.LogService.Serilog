@@ -5,10 +5,12 @@ namespace AmbientContext.LogService.Serilog
     internal class SerilogLogAdapter : ILogger
     {
         private readonly global::Serilog.ILogger _logger;
+        private readonly LogContextAdapter _logContext;
 
         public SerilogLogAdapter(global::Serilog.ILogger logger)
         {
             _logger = logger;
+            _logContext = new LogContextAdapter();
         }
 
         public void Verbose(string messageTemplate) =>
@@ -64,5 +66,7 @@ namespace AmbientContext.LogService.Serilog
 
         public void Error(Exception exception, string messageTemplate, params object[] propertyValues) =>
             _logger.Error(exception, messageTemplate, propertyValues);
+
+        public ILogContext LogContext => _logContext;
     }
 }
