@@ -94,9 +94,11 @@ Task("Run-Unit-Tests")
 Task("Update-Version")
     .Does(() => 
 {
-    GitVersion(new GitVersionSettings {
-        UpdateAssemblyInfo = true});
-    string version = GitVersion().FullSemVer;
+    GitVersion(new GitVersionSettings { UpdateAssemblyInfo = true });
+    
+	string version = GitVersion().NuGetVersion;
+	Console.WriteLine("Current NuGetVersion=" + version);
+	
     if (AppVeyor.IsRunningOnAppVeyor) {
         AppVeyor.UpdateBuildVersion(version);
     }
