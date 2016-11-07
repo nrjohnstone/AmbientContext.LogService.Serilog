@@ -15,8 +15,9 @@ var configuration = Argument("configuration", "Release");
 
 // Define directories.
 var solutionDir = Directory("./src");
+var projectDir = solutionDir + Directory("AmbientContext.LogService.Serilog");
 var solutionFile = solutionDir + File("AmbientContext.LogService.Serilog.sln");
-var buildDir = Directory("./src/AmbientContext.LogService.Serilog/bin") + Directory(configuration);
+var buildDir = projectDir + Directory("bin") + Directory(configuration);
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -94,7 +95,8 @@ Task("Run-Unit-Tests")
 Task("Update-Version")
     .Does(() => 
 {
-    GitVersion(new GitVersionSettings { UpdateAssemblyInfo = true });
+    GitVersion(new GitVersionSettings { UpdateAssemblyInfo = true,
+		UpdateAssemblyInfoFilePath = projectDir + File(@"Properties\AssemblyVersionInfo.cs") });
     
 	string version = GitVersion().NuGetVersion;
 	Console.WriteLine("Current NuGetVersion=" + version);
