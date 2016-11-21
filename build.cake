@@ -5,7 +5,6 @@
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
-
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
@@ -14,8 +13,8 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var solutionDir = Directory("./src");
-var projectDir = solutionDir + Directory("AmbientContext.LogService.Serilog");
+var solutionDir = Directory("./");
+var projectDir = solutionDir + Directory("./src/AmbientContext.LogService.Serilog");
 var solutionFile = solutionDir + File("AmbientContext.LogService.Serilog.sln");
 var buildDir = projectDir + Directory("bin") + Directory(configuration);
 
@@ -62,6 +61,7 @@ Task("Pack")
 
 
 Task("Build")
+    .IsDependentOn("Clean")
     .IsDependentOn("Restore-NuGet-Packages")
     .IsDependentOn("Update-Version")
     .Does(() =>
@@ -116,29 +116,6 @@ Task("Update-Version")
     }
 });
 
-
-Task("Get-DotNetCli")
-    .Does(() =>
-{         
-    string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-    string dotNetPath = userProfile + @"Local\Microsoft\dotnet";
-    
-    if (!Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine).Contains(dotNetPath))
-    {
-        DownloadFile("https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.ps1", "./tools/dotnet-install.ps1");
-        var version = "1.0.0-preview2-003121";
-        StartPowershellFile("./tools/dotnet-install.ps1", args =>
-            {
-                args.Append("Version", version);
-            });
-
-        
-        string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine) + ";" + dotNetPath;
-        Console.WriteLine(path);
-        Environment.SetEnvironmentVariable("Path", path, EnvironmentVariableTarget.Machine);
-        Environment.SetEnvironmentVariable("Path", path);
-    }
-});
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS

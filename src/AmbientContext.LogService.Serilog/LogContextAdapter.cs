@@ -2,7 +2,7 @@
 
 namespace AmbientContext.LogService.Serilog
 {
-    public class LogContextAdapter : ILogContext
+    internal class LogContextAdapter : ILogContext
     {
         public IDisposable PushProperty(string name, object value)
         {
