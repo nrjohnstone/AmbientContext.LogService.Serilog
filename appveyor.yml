@@ -6,7 +6,7 @@ environment:
 pull_requests:
   do_not_increment_build_number: true
 
-branches:  
+branches:
   only:
   - master
   - develop
@@ -15,7 +15,7 @@ branches:
 configuration: Release
 
 nuget:
-  account_feed: true
+  account_feed: false
   project_feed: true
   disable_publish_on_pr: true
 
@@ -25,7 +25,7 @@ build:
 build_script:
 - ps: .\Build.ps1
 
-artifacts:  
+artifacts:
 - path: .\artifacts\**\*.nupkg
   name: NuGet
 
