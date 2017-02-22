@@ -70,9 +70,14 @@
   <ItemGroup>
     <Compile Include="AmbientLogServiceTests.cs" />
     <Compile Include="LogHandlerBaseTests.cs" />
+    <Compile Include="NumberAdderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AmbientContext.LogService.Serilog.Example\AmbientContext.LogService.Serilog.Example.csproj">
+      <Project>{462FBF1A-6F9A-46FA-AAD9-D00D4E1B81AA}</Project>
+      <Name>AmbientContext.LogService.Serilog.Example</Name>
+    </ProjectReference>
     <ProjectReference Include="..\src\AmbientContext.LogService.Serilog\AmbientContext.LogService.Serilog.csproj">
       <Project>{C2EA67E1-0CA1-4F2A-8F7D-5660965AF214}</Project>
       <Name>AmbientContext.LogService.Serilog</Name>
