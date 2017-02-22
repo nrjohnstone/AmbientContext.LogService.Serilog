@@ -10,6 +10,7 @@ namespace AmbientContext.LogService.Serilog.Example
 
         public StatsdLogHandler(Statsd statsd)
         {
+            if (statsd == null) throw new ArgumentNullException(nameof(statsd));
             _statsd = statsd;
         }
 
