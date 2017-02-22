@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.LogService.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.LogService.Serilog.Tests", "AmbientContext.LogService.Serilog.Tests\AmbientContext.LogService.Serilog.Tests.csproj", "{3831A1C6-73B4-4561-92CE-00807754F876}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.LogService.Serilog.Example", "AmbientContext.LogService.Serilog.Example\AmbientContext.LogService.Serilog.Example.csproj", "{462FBF1A-6F9A-46FA-AAD9-D00D4E1B81AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3831A1C6-73B4-4561-92CE-00807754F876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3831A1C6-73B4-4561-92CE-00807754F876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3831A1C6-73B4-4561-92CE-00807754F876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{462FBF1A-6F9A-46FA-AAD9-D00D4E1B81AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{462FBF1A-6F9A-46FA-AAD9-D00D4E1B81AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{462FBF1A-6F9A-46FA-AAD9-D00D4E1B81AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{462FBF1A-6F9A-46FA-AAD9-D00D4E1B81AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
