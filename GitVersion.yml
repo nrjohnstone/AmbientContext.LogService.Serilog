@@ -1,7 +1,6 @@
-assembly-versioning-scheme: None
+assembly-versioning-scheme: MajorMinorPatch
 mode: ContinuousDelivery
 branches:
   dev(elop)?(ment)?$: {}
 ignore:
   sha: []
-
