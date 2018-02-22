@@ -1,284 +1,268 @@
 ﻿using System;
+using System.Threading;
 using NSubstitute;
 using Xunit;
 
 namespace AmbientContext.LogService.Serilog.Tests
 {
+    public static class AmbientLogServiceLock
+    {
+        public static Mutex AddHandlerLock = new Mutex();
+    }
+
     public class AmbientLogServiceTests
     {
-        private readonly ILogger _loggerMock;
+        private static readonly ILogger _loggerMock = Substitute.For<ILogger>();
+        private static readonly LogHandlerBase _handler1 = Substitute.For<LogHandlerBase>();
+        private static readonly LogHandlerBase _handler2 = Substitute.For<LogHandlerBase>();
+        private static readonly object _lock = new object();
+        private static volatile bool _logserviceConfigured = false;
 
         public AmbientLogServiceTests()
         {
-            _loggerMock = Substitute.For<ILogger>();
+            lock (_lock)
+            {
+                if (!_logserviceConfigured)
+                {
+                    AmbientLogServiceLock.AddHandlerLock.WaitOne();
+                    AmbientLogService.AddLogHandler(_handler1);
+                    AmbientLogService.AddLogHandler(_handler2);
+                    AmbientLogService.Create = () => _loggerMock;
+                    _logserviceConfigured = true;
+                    AmbientLogServiceLock.AddHandlerLock.ReleaseMutex();
+                }
+            }
         }
 
         [Fact]
         public void Verbose_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
 
-            AmbientLogService.AddLogHandler(handler);
             AmbientLogService.Create = () => _loggerMock;
+            string message = Guid.NewGuid().ToString();
 
-            sut.Verbose("Some Message");
+            sut.Verbose(message);
 
-            handler.Received(1).Verbose(Arg.Any<string>());
+            _handler1.Received(1).Verbose(message);
         }
 
         [Fact]
         public void Verbose_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Verbose(message, 1, 2);
 
-            sut.Verbose("Some Message", 1, 2);
-
-            handler.Received(1).Verbose(Arg.Any<string>(), Arg.Any<object[]>());
+            _handler1.Received(1).Verbose(message, 1, 2);
         }
 
         [Fact]
         public void Verbose_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
+            var exception = new Exception();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Verbose(exception, message);
 
-            sut.Verbose(new Exception(), "Some Message");
-
-            handler.Received(1).Verbose(Arg.Any<Exception>(), Arg.Any<string>());
+            _handler1.Received(1).Verbose(exception, message);
         }
 
         [Fact]
         public void Debug_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Debug(message);
 
-            sut.Debug("Some Message");
-
-            handler.Received(1).Debug(Arg.Any<string>());
+            _handler1.Received(1).Debug(message);
         }
 
         [Fact]
         public void Debug_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Debug(message, 1, 2);
 
-            sut.Debug("Some Message", 1, 2);
-
-            handler.Received(1).Debug(Arg.Any<string>(), Arg.Any<object[]>());
+            _handler1.Received(1).Debug(message, 1, 2);
         }
 
         [Fact]
         public void Debug_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
+            var exception = new Exception();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Debug(exception, message);
 
-            sut.Debug(new Exception(), "Some Message");
-
-            handler.Received(1).Debug(Arg.Any<Exception>(), Arg.Any<string>());
+            _handler1.Received(1).Debug(exception, message);
         }
 
         [Fact]
         public void Information_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Information(message);
 
-            sut.Information("Some Message");
-
-            handler.Received(1).Information(Arg.Any<string>());
+            _handler1.Received(1).Information(message);
         }
 
         [Fact]
         public void Information_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Information(message, 1, 2);
 
-            sut.Information("Some Message", 1, 2);
-
-            handler.Received(1).Information(Arg.Any<string>(), Arg.Any<object[]>());
+            _handler1.Received(1).Information(message, 1, 2);
         }
 
         [Fact]
         public void Information_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
+            var exception = new Exception();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Information(exception, message);
 
-            sut.Information(new Exception(), "Some Message");
-
-            handler.Received(1).Information(Arg.Any<Exception>(), Arg.Any<string>());
+            _handler1.Received(1).Information(exception, message);
         }
 
         [Fact]
         public void Warning_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Warning(message);
 
-            sut.Warning("Some Message");
-
-            handler.Received(1).Warning(Arg.Any<string>());
+            _handler1.Received(1).Warning(message);
         }
 
         [Fact]
         public void Warning_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Warning(message, 1, 2);
 
-            sut.Warning("Some Message", 1, 2);
-
-            handler.Received(1).Warning(Arg.Any<string>(), Arg.Any<object[]>());
+            _handler1.Received(1).Warning(message, 1, 2);
         }
 
         [Fact]
         public void Warning_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
+            var exception = new Exception();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Warning(exception, message);
 
-            sut.Warning(new Exception(), "Some Message");
-
-            handler.Received(1).Warning(Arg.Any<Exception>(), Arg.Any<string>());
+            _handler1.Received(1).Warning(exception, message);
         }
 
         [Fact]
         public void Error_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Error(message);
 
-            sut.Error("Some Message");
-
-            handler.Received(1).Error(Arg.Any<string>());
+            _handler1.Received(1).Error(message);
         }
 
         [Fact]
         public void Error_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Error(message, 1, 2);
 
-            sut.Error("Some Message", 1, 2);
-
-            handler.Received(1).Error(Arg.Any<string>(), Arg.Any<object[]>());
+            _handler1.Received(1).Error(message, 1, 2);
         }
 
         [Fact]
         public void Error_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
+            var exception = new Exception();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Error(exception, message);
 
-            sut.Error(new Exception(), "Some Message");
-
-            handler.Received(1).Error(Arg.Any<Exception>(), Arg.Any<string>());
+            _handler1.Received(1).Error(exception, message);
         }
 
         [Fact]
         public void Fatal_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Fatal(message);
 
-            sut.Fatal("Some Message");
-
-            handler.Received(1).Fatal(Arg.Any<string>());
+            _handler1.Received(1).Fatal(message);
         }
 
         [Fact]
         public void Fatal_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Fatal(message, 1, 2);
 
-            sut.Fatal("Some Message", 1, 2);
-
-            handler.Received(1).Fatal(Arg.Any<string>(), Arg.Any<object[]>());
+            _handler1.Received(1).Fatal(message, 1, 2);
         }
 
         [Fact]
         public void Fatal_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
+            var exception = new Exception();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Fatal(exception, message);
 
-            sut.Fatal(new Exception(), "Some Message");
-
-            handler.Received(1).Fatal(Arg.Any<Exception>(), Arg.Any<string>());
+            _handler1.Received(1).Fatal(exception, message);
         }
 
         [Fact]
         public void Error_WithExceptionString_ShouldLogAsErrorToSerilog()
         {
             AmbientLogService sut = new AmbientLogService();
-            var handler = Substitute.For<LogHandlerBase>();
+            string message = Guid.NewGuid().ToString();
+            var exception = new Exception();
 
-            AmbientLogService.AddLogHandler(handler);
-            AmbientLogService.Create = () => _loggerMock;
+            sut.Error(exception, message);
 
-            sut.Error(new Exception(), "Some Message");
-
-            sut.Instance.Received(1).Error(Arg.Any<Exception>(), Arg.Any<string>());
+            sut.Instance.Received(1).Error(exception, message);
         }
 
+        [Fact]
+        public void WhenMultipleHandlersAreAdded_ShouldCallAllHandlersAndBaseLogger()
+        {
+            AmbientLogService sut = new AmbientLogService();
+            string message = Guid.NewGuid().ToString();
 
+            sut.Verbose(message);
+
+            _loggerMock.Received(1).Verbose(message);
+            _handler1.Received(1).Verbose(message);
+            _handler2.Received(1).Verbose(message);
+        }
     }
 }

@@ -86,7 +86,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AmbientLogServiceTests.cs" />
-    <Compile Include="LogHandlerBaseTests.cs" />
     <Compile Include="NumberAdderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

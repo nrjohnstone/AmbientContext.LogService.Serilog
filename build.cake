@@ -90,10 +90,13 @@ Task("Rebuild")
 
 Task("Run-Unit-Tests")
     .Does(() =>
-{
-    //var testAssemblies = GetFiles(".\\test\\AmbientContext.Tests\\bin\\" + configuration + "\\net451\\*\\AmbientContext.Tests.dll");
-    //Console.WriteLine(testAssemblies.Count());
-    //XUnit2(testAssemblies);
+{    
+    XUnit2(@".\AmbientContext.LogService.Serilog.Tests\bin\" + configuration + @"\AmbientContext.LogService.Serilog.Tests.dll",
+        new XUnit2Settings {
+            Parallelism = ParallelismOption.All,
+            HtmlReport = false,
+            NoAppDomain = true
+        });
 });
 
 
