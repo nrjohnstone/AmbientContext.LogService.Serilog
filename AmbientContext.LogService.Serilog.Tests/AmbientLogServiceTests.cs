@@ -266,6 +266,20 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Fatal(Arg.Any<Exception>(), Arg.Any<string>());
         }
 
+        [TestMethod]
+        public void Error_WithExceptionString_ShouldLogAsErrorToSerilog()
+        {
+            AmbientLogService sut = new AmbientLogService();
+            var handler = Substitute.For<LogHandlerBase>();
+
+            AmbientLogService.AddLogHandler(handler);
+            AmbientLogService.Create = () => _loggerMock;
+
+            sut.Error(new Exception(), "Some Message");
+
+            sut.Instance.Received(1).Error(Arg.Any<Exception>(), Arg.Any<string>());
+        }
+
 
     }
 }
