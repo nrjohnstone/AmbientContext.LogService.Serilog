@@ -1,11 +1,10 @@
 ﻿using System;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using Xunit;
 
 namespace AmbientContext.LogService.Serilog.Tests
 {
-    [TestClass]
     public class LogHandlerBaseTests
     {
         private readonly ILogger _loggerMock;
@@ -35,7 +34,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             _loggerMock = Substitute.For<ILogger>();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenAHandlerIsAdded_ShouldCallHandlerAndBaseLogger()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -50,7 +49,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             errorMetricsHandler.VerboseMetric.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenMultipleHandlersAreAdded_ShouldCallAllHandlersAndBaseLogger()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -68,7 +67,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             fooHandler.VerboseCalled.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Verbose_WithStringOverridden_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -78,7 +77,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             AmbientLogService.Create = () => _loggerMock;
 
             sut.Verbose("Some Message");
-            
+
             handler.Received(1).Verbose(Arg.Any<string>());
         }
     }

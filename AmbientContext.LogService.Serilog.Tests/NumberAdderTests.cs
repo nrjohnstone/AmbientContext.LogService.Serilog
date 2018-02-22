@@ -1,19 +1,18 @@
 using AmbientContext.LogService.Serilog.Example;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using Xunit;
 
 namespace AmbientContext.LogService.Serilog.Tests
 {
-    [TestClass]
     public class NumberAdderTests
     {
         private readonly ILogger _loggerMock;
 
         public NumberAdderTests()
         {
-            _loggerMock = Substitute.For<ILogger>();            
+            _loggerMock = Substitute.For<ILogger>();
         }
-        
+
         private NumberAdder CreateSut()
         {
             var sut = new NumberAdder();
@@ -21,7 +20,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             return sut;
         }
 
-        [TestMethod]
+        [Fact]
         public void AddingNumbers_WhenSumIsNotDivisibleBy10_ShouldLogWarning()
         {
             var sut = CreateSut();

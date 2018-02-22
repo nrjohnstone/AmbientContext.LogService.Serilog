@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using Xunit;
 
 namespace AmbientContext.LogService.Serilog.Tests
 {
-    [TestClass]
     public class AmbientLogServiceTests
     {
         private readonly ILogger _loggerMock;
@@ -14,7 +13,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             _loggerMock = Substitute.For<ILogger>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Verbose_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -28,7 +27,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Verbose(Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Verbose_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -42,7 +41,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Verbose(Arg.Any<string>(), Arg.Any<object[]>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Verbose_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -56,7 +55,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Verbose(Arg.Any<Exception>(), Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Debug_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -70,7 +69,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Debug(Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Debug_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -84,7 +83,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Debug(Arg.Any<string>(), Arg.Any<object[]>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Debug_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -98,7 +97,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Debug(Arg.Any<Exception>(), Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Information_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -112,7 +111,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Information(Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Information_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -126,7 +125,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Information(Arg.Any<string>(), Arg.Any<object[]>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Information_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -140,7 +139,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Information(Arg.Any<Exception>(), Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Warning_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -154,7 +153,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Warning(Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Warning_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -168,7 +167,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Warning(Arg.Any<string>(), Arg.Any<object[]>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Warning_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -182,7 +181,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Warning(Arg.Any<Exception>(), Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Error_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -196,7 +195,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Error(Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Error_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -210,7 +209,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Error(Arg.Any<string>(), Arg.Any<object[]>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Error_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -224,7 +223,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Error(Arg.Any<Exception>(), Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Fatal_WithString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -238,7 +237,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Fatal(Arg.Any<string>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Fatal_WithStringAndParameters_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -252,7 +251,7 @@ namespace AmbientContext.LogService.Serilog.Tests
             handler.Received(1).Fatal(Arg.Any<string>(), Arg.Any<object[]>());
         }
 
-        [TestMethod]
+        [Fact]
         public void Fatal_WithExceptionString_ShouldCallHandler()
         {
             AmbientLogService sut = new AmbientLogService();
@@ -264,6 +263,20 @@ namespace AmbientContext.LogService.Serilog.Tests
             sut.Fatal(new Exception(), "Some Message");
 
             handler.Received(1).Fatal(Arg.Any<Exception>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void Error_WithExceptionString_ShouldLogAsErrorToSerilog()
+        {
+            AmbientLogService sut = new AmbientLogService();
+            var handler = Substitute.For<LogHandlerBase>();
+
+            AmbientLogService.AddLogHandler(handler);
+            AmbientLogService.Create = () => _loggerMock;
+
+            sut.Error(new Exception(), "Some Message");
+
+            sut.Instance.Received(1).Error(Arg.Any<Exception>(), Arg.Any<string>());
         }
 
 

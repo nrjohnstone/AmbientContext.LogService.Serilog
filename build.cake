@@ -26,51 +26,56 @@ var buildDir = projectDir + Directory("bin") + Directory(configuration);
 Task("Clean")
     .Does(() =>
 {
-    CleanDirectory(buildDir);
+    var settings = new DotNetCoreCleanSettings
+     {         
+         Configuration = configuration      
+     };
+
+    DotNetCoreClean(solutionFile, settings);
 });
 
 
 Task("Restore-NuGet-Packages")
     .Does(() =>
 {
+    DotNetCoreRestore(solutionFile);
+    // For old versions of csproj files
     NuGetRestore(solutionFile);
 });
 
 
-Task("Pack")
+Task("Pack-Nuget")
     .Does(() => 
 {
-    EnsureDirectoryExists("./artifacts");
-    string version = GitVersion().NuGetVersion;
-
-    var binDir = Directory("./bin") ;
     var nugetPackageDir = Directory("./artifacts");
+    EnsureDirectoryExists(nugetPackageDir);
+    string version = GitVersion().NuGetVersionV2;
 
-    var nugetFilePaths = GetFiles("./src/AmbientContext.LogService.Serilog/*.csproj");
-
-    var nuGetPackSettings = new NuGetPackSettings
-    {   
-        Version = version,
-        BasePath = binDir + Directory(configuration),
+    var settings = new DotNetCorePackSettings
+    {
+        ArgumentCustomization = args=>args.Append("/p:PackageVersion=" + version),
+        Configuration = configuration,
         OutputDirectory = nugetPackageDir,
-        ArgumentCustomization = args => args.Append("-Prop Configuration=" + configuration)
+        NoRestore = true,
+        IncludeSymbols = true
     };
 
-    NuGetPack(nugetFilePaths, nuGetPackSettings);
+    DotNetCorePack("./src/AmbientContext.LogService.Serilog/AmbientContext.LogService.Serilog.csproj", settings);
 });
 
 
 Task("Build")
-    .IsDependentOn("Clean")
     .IsDependentOn("Restore-NuGet-Packages")
     .IsDependentOn("Update-Version")
     .Does(() =>
 {
-    DotNetCoreRestore();
+    var settings = new DotNetCoreBuildSettings
+    {
+        Configuration = configuration,
+        NoRestore = true    
+    };
 
-    // Use MSBuild
-    MSBuild(solutionFile, settings =>
-    settings.SetConfiguration(configuration));
+    DotNetCoreBuild(solutionFile, settings);
 });
 
 
@@ -124,7 +129,7 @@ Task("Update-Version")
 Task("Default")
     .IsDependentOn("Build")
     .IsDependentOn("Run-Unit-Tests")
-    .IsDependentOn("Pack");
+    .IsDependentOn("Pack-Nuget");
     
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

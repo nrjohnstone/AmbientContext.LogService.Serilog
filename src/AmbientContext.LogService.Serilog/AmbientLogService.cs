@@ -24,7 +24,7 @@ namespace AmbientContext.LogService.Serilog
             Handlers.ForEach(x => x.Verbose(messageTemplate));
             Instance.Verbose(messageTemplate);
         }
-           
+
         public void Verbose(string messageTemplate, params object[] propertyValues)
         {
             Handlers.ForEach(x => x.Verbose(messageTemplate, propertyValues));
