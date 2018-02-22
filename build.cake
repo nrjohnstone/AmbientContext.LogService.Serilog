@@ -26,7 +26,12 @@ var buildDir = projectDir + Directory("bin") + Directory(configuration);
 Task("Clean")
     .Does(() =>
 {
-    CleanDirectory(buildDir);
+    var settings = new DotNetCoreCleanSettings
+     {         
+         Configuration = configuration      
+     };
+
+    DotNetCoreClean(solutionFile, settings);
 });
 
 
@@ -34,6 +39,7 @@ Task("Restore-NuGet-Packages")
     .Does(() =>
 {
     DotNetCoreRestore(solutionFile);
+    // For old versions of csproj files
     NuGetRestore(solutionFile);
 });
 
