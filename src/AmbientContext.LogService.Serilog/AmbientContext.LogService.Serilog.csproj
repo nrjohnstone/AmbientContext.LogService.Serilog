@@ -11,7 +11,7 @@
   <PropertyGroup>
     <PackageId>AmbientContext.LogService.Serilog</PackageId>
     <Authors>Nathan Johnstone</Authors>
-    <Description></Description>
+    <Description>Ambient context service for serilog logger</Description>
     <PackageProjectUrl>https://github.com/nrjohnstone/AmbientContext.LogService.Serilog</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nrjohnstone/AmbientContext.LogService.Serilog</RepositoryUrl>    
     <PackageLicenseUrl>https://github.com/nrjohnstone/AmbientContext.LogService.Serilog/blob/master/LICENSE.md</PackageLicenseUrl>
