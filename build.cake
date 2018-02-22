@@ -37,26 +37,23 @@ Task("Restore-NuGet-Packages")
 });
 
 
-Task("Pack")
+Task("Pack-Nuget")
     .Does(() => 
 {
-    EnsureDirectoryExists("./artifacts");
-    string version = GitVersion().NuGetVersion;
-
-    var binDir = Directory("./bin") ;
     var nugetPackageDir = Directory("./artifacts");
+    EnsureDirectoryExists(nugetPackageDir);
+    string version = GitVersion().NuGetVersionV2;
 
-    var nugetFilePaths = GetFiles("./src/AmbientContext.LogService.Serilog/*.csproj");
-
-    var nuGetPackSettings = new NuGetPackSettings
-    {   
-        Version = version,
-        BasePath = binDir + Directory(configuration),
+    var settings = new DotNetCorePackSettings
+    {
+        ArgumentCustomization = args=>args.Append("/p:PackageVersion=" + version),
+        Configuration = configuration,
         OutputDirectory = nugetPackageDir,
-        ArgumentCustomization = args => args.Append("-Prop Configuration=" + configuration)
+        NoRestore = true,
+        IncludeSymbols = true
     };
 
-    NuGetPack(nugetFilePaths, nuGetPackSettings);
+    DotNetCorePack("./src/AmbientContext.LogService.Serilog/AmbientContext.LogService.Serilog.csproj", settings);
 });
 
 
@@ -124,7 +121,7 @@ Task("Update-Version")
 Task("Default")
     .IsDependentOn("Build")
     .IsDependentOn("Run-Unit-Tests")
-    .IsDependentOn("Pack");
+    .IsDependentOn("Pack-Nuget");
     
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
