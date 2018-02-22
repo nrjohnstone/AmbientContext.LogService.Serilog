@@ -33,6 +33,7 @@ Task("Clean")
 Task("Restore-NuGet-Packages")
     .Does(() =>
 {
+    DotNetCoreRestore(solutionFile);
     NuGetRestore(solutionFile);
 });
 
@@ -58,16 +59,17 @@ Task("Pack-Nuget")
 
 
 Task("Build")
-    .IsDependentOn("Clean")
     .IsDependentOn("Restore-NuGet-Packages")
     .IsDependentOn("Update-Version")
     .Does(() =>
 {
-    DotNetCoreRestore();
+    var settings = new DotNetCoreBuildSettings
+    {
+        Configuration = configuration,
+        NoRestore = true    
+    };
 
-    // Use MSBuild
-    MSBuild(solutionFile, settings =>
-    settings.SetConfiguration(configuration));
+    DotNetCoreBuild(solutionFile, settings);
 });
 
 
