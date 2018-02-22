@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Serilog;
 
 namespace AmbientContext.LogService.Serilog
@@ -14,6 +15,11 @@ namespace AmbientContext.LogService.Serilog
             return new SerilogLogAdapter(Log.Logger);
         }
 
+        /// <summary>
+        /// Add a handler to the ambient log service. This method is NOT thread safe
+        /// and should only be setup at the entry point of your application
+        /// </summary>
+        /// <param name="handler"></param>
         public static void AddLogHandler(LogHandlerBase handler)
         {
             Handlers.Add(handler);
