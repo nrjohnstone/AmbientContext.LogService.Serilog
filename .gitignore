@@ -220,3 +220,4 @@ tools/*
 *.ncrunchproject
 
 *.ncrunchsolution
+src/AmbientContext.LogService.Serilog/Properties/AssemblyVersionInfo.cs
