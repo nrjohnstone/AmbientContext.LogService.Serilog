@@ -1,5 +1,4 @@
 #addin "Newtonsoft.Json"
-#addin "Cake.Powershell"
 #tool "nuget:?package=GitVersion.CommandLine"
 #tool "nuget:?package=xunit.runner.console"
 //////////////////////////////////////////////////////////////////////
