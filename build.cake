@@ -1,6 +1,6 @@
-#addin "Newtonsoft.Json"
-#tool "nuget:?package=GitVersion.CommandLine"
-#tool "nuget:?package=xunit.runner.console"
+#addin "Newtonsoft.Json&version=11.0.1"
+#tool "nuget:?package=GitVersion.CommandLine&version=3.6.5"
+#tool "nuget:?package=xunit.runner.console&version=2.3.1"
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
