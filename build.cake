@@ -90,7 +90,7 @@ Task("Rebuild")
 Task("Run-Unit-Tests")
     .Does(() =>
 {    
-    XUnit2(@".\AmbientContext.LogService.Serilog.Tests\bin\" + configuration + @"\AmbientContext.LogService.Serilog.Tests.dll",
+    XUnit2(@".\test\AmbientContext.LogService.Serilog.Tests\bin\" + configuration + @"\AmbientContext.LogService.Serilog.Tests.dll",
         new XUnit2Settings {
             Parallelism = ParallelismOption.All,
             HtmlReport = false,

@@ -5,9 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.LogService.Serilog", "src\AmbientContext.LogService.Serilog\AmbientContext.LogService.Serilog.csproj", "{C2EA67E1-0CA1-4F2A-8F7D-5660965AF214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.LogService.Serilog.Tests", "AmbientContext.LogService.Serilog.Tests\AmbientContext.LogService.Serilog.Tests.csproj", "{3831A1C6-73B4-4561-92CE-00807754F876}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.LogService.Serilog.Tests", "test\AmbientContext.LogService.Serilog.Tests\AmbientContext.LogService.Serilog.Tests.csproj", "{3831A1C6-73B4-4561-92CE-00807754F876}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.LogService.Serilog.Example", "AmbientContext.LogService.Serilog.Example\AmbientContext.LogService.Serilog.Example.csproj", "{462FBF1A-6F9A-46FA-AAD9-D00D4E1B81AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.LogService.Serilog.Example", "src\AmbientContext.LogService.Serilog.Example\AmbientContext.LogService.Serilog.Example.csproj", "{462FBF1A-6F9A-46FA-AAD9-D00D4E1B81AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AmbientContext.LogService.Serilog.Example\AmbientContext.LogService.Serilog.Example.csproj" />
-    <ProjectReference Include="..\src\AmbientContext.LogService.Serilog\AmbientContext.LogService.Serilog.csproj" />
+    <ProjectReference Include="..\..\src\AmbientContext.LogService.Serilog.Example\AmbientContext.LogService.Serilog.Example.csproj" />
+    <ProjectReference Include="..\..\src\AmbientContext.LogService.Serilog\AmbientContext.LogService.Serilog.csproj" />
   </ItemGroup>
  
 </Project>
