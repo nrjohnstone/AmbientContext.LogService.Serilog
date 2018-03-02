@@ -6,9 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AmbientContext" Version="2.1.1" />
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="NSubstitute" Version="3.1.0" />    
     <PackageReference Include="xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AmbientContext.LogService.Serilog.Example\AmbientContext.LogService.Serilog.Example.csproj" />
+    <ProjectReference Include="..\src\AmbientContext.LogService.Serilog\AmbientContext.LogService.Serilog.csproj" />
   </ItemGroup>
  
 </Project>
